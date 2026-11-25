@@ -120,8 +120,9 @@ public final class ScreenCaptureService: @unchecked Sendable {
         try await stream.startCapture()
 
         let workItem = DispatchWorkItem { [weak self] in
+            guard let service = self else { return }
             Task {
-                await self?.pauseStreamForMaxDuration()
+                await service.pauseStreamForMaxDuration()
             }
         }
         DispatchQueue.global(qos: .utility).asyncAfter(
